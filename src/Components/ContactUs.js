@@ -5,7 +5,7 @@ import NavBar from './NavBar'; // Import the NavBar component
 const Contact = () => {
     return (
         <div>
-            <NavBar />
+            {/* <NavBar /> */}
             <div style={styles.container}>
                 <h1>Contact Us</h1>
                 <p>If you have any questions or feedback, please feel free to reach out to us:</p>

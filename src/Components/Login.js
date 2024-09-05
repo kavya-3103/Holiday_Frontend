@@ -6,12 +6,10 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('user'); // Default role
-    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setError('');
 
         try {
             const response = await axios.post('http://localhost:8080/users/login', null, {
@@ -31,20 +29,15 @@ const Login = () => {
                 localStorage.setItem('role', role);
                 localStorage.setItem('userId', userId);
 
-                // Verify if userId is stored
-                console.log('Stored userId:', localStorage.getItem('userId'));
-
                 // Navigate based on role
-                if (role === 'admin') {
+                if (role === 'Admin') {
                     navigate('/adminhome');
                 } else {
                     navigate('/home');
                 }
-            } else {
-                setError('Invalid username or password');
             }
         } catch (err) {
-            setError('Invalid username or password');
+            console.error('Login failed:', err);
         }
     };
 
@@ -84,9 +77,11 @@ const Login = () => {
                         <option value="admin">Admin</option>
                     </select>
                 </div>
-                {error && <p style={styles.error}>{error}</p>}
                 <button type="submit" style={styles.button}>Login</button>
             </form>
+            <p style={styles.registerLink}>
+                Not registered? <span onClick={() => navigate('/registration')} style={styles.link}>Click here</span> to sign up.
+            </p>
         </div>
     );
 };
@@ -99,19 +94,22 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100vh',
-        backgroundColor: '#f0f2f5',
+        background: 'rgb(2,0,36)',
+        background: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 46%, rgba(0,212,255,1) 100%)',
     },
     title: {
         fontSize: '2rem',
         marginBottom: '20px',
-        color: '#333',
+        color: 'white',
     },
     form: {
-        width: '300px',
-        padding: '20px',
-        backgroundColor: 'white',
+        width: '100%',
+        maxWidth: '400px',
+        padding: '30px',
+        backgroundColor: 'rgba(255, 255, 255, 0.6)',
         borderRadius: '8px',
-        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.7)',
+        boxSizing: 'border-box',
     },
     field: {
         marginBottom: '15px',
@@ -121,6 +119,7 @@ const styles = {
         marginBottom: '5px',
         fontSize: '0.9rem',
         color: '#555',
+        fontWeight: 'bold',
     },
     input: {
         width: '100%',
@@ -128,26 +127,28 @@ const styles = {
         border: '1px solid #ccc',
         borderRadius: '4px',
         fontSize: '1rem',
+        marginBottom: '6px',
     },
     button: {
         width: '100%',
         padding: '10px',
-        backgroundColor: '#007bff',
-        color: 'white',
+        background: 'rgb(2,0,36)',
+        background: 'linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 0%, rgba(9,9,121,1) 56%, rgba(9,9,121,1) 100%)',
+        color: '#fff',
         border: 'none',
         borderRadius: '4px',
         fontSize: '1rem',
         cursor: 'pointer',
-        transition: 'background-color 0.3s',
     },
-    buttonHover: {
-        backgroundColor: '#0056b3',
-    },
-    error: {
-        color: 'red',
+    registerLink: {
+        marginTop: '20px',
         fontSize: '0.9rem',
-        marginBottom: '10px',
-        textAlign: 'center',
+        color: '#fff',
+    },
+    link: {
+        color: '#ffeb3b',
+        cursor: 'pointer',
+        textDecoration: 'underline',
     }
 };
 

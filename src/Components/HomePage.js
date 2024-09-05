@@ -4,9 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 const HomePage = () => {
     const [username, setUsername] = useState('Guest');
     const [userId, setUserId] = useState(null); // Added userId state
-    const [arrivalDate, setArrivalDate] = useState('');
-    const [departureDate, setDepartureDate] = useState('');
-    const [adults, setAdults] = useState(1);
     const [location, setLocation] = useState('');
     const navigate = useNavigate();
 
@@ -24,7 +21,7 @@ const HomePage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate(`/usergetallplaces?arrivalDate=${arrivalDate}&departureDate=${departureDate}&adults=${adults}&location=${location}`);
+        navigate(`/usergetallplaces?location=${location}`);
     };
 
     return (
@@ -32,13 +29,21 @@ const HomePage = () => {
             <nav style={styles.navbar}>
                 <h2 style={styles.navTitle}>HolidayHome</h2>
                 <div style={styles.navLinks}>
-                    <Link to="/" style={styles.navLink}>Home</Link>
-                    {userId && (
-                        <Link to={`/bookingdetails/${userId}`} style={styles.navLink}>My Bookings</Link>
-                    )}
+                    <Link to="/home" style={styles.navLink}>Home</Link>
+                    <Link to="/mybookings" style={styles.navLink}>My Bookings</Link>
+                    <Link to={`/updateuser/${userId}`} style={styles.navLink}>My Profile</Link> {/* Fixed link */}
                     <Link to="/about" style={styles.navLink}>About</Link>
                     <Link to="/contact" style={styles.navLink}>Contact</Link>
-                    <Link to="/login" style={styles.navLink}>Logout</Link>
+                    <Link 
+                        to="/login" 
+                        style={styles.navLink} 
+                        onClick={() => {
+                            localStorage.removeItem('username');
+                            localStorage.removeItem('userId');
+                        }}
+                    >
+                        Logout
+                    </Link>
                 </div>
             </nav>
             <div style={styles.content}>
@@ -49,40 +54,13 @@ const HomePage = () => {
             <div style={styles.formContainer}>
                 <form style={styles.form} onSubmit={handleSubmit}>
                     <label style={styles.label}>
-                        Arrival Date:
-                        <input
-                            type="date"
-                            value={arrivalDate}
-                            onChange={(e) => setArrivalDate(e.target.value)}
-                            style={styles.input}
-                        />
-                    </label>
-                    <label style={styles.label}>
-                        Departure Date:
-                        <input
-                            type="date"
-                            value={departureDate}
-                            onChange={(e) => setDepartureDate(e.target.value)}
-                            style={styles.input}
-                        />
-                    </label>
-                    <label style={styles.label}>
-                        Adults:
-                        <input
-                            type="number"
-                            min="1"
-                            value={adults}
-                            onChange={(e) => setAdults(Number(e.target.value))}
-                            style={styles.input}
-                        />
-                    </label>
-                    <label style={styles.label}>
                         Location:
                         <input
                             type="text"
                             value={location}
                             onChange={(e) => setLocation(e.target.value)}
                             style={styles.input}
+                            placeholder="Enter your preferred location" // Placeholder text added here
                         />
                     </label>
                     <button type="submit" style={styles.button}>Check Places</button>
@@ -138,7 +116,7 @@ const styles = {
         boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
         borderRadius: '8px',
         margin: '20px',
-        width: '90%',
+        width: '40%',
         maxWidth: '800px',
         alignSelf: 'center',
     },
@@ -153,13 +131,14 @@ const styles = {
         margin: '0 10px',
         display: 'flex',
         flexDirection: 'column',
+        fontWeight: 'bold',   // Makes the text bold
     },
     input: {
         marginTop: '5px',
         padding: '8px',
         borderRadius: '4px',
-        border: '1px solid #ddd',
-        width: '150px',
+        border: '1px solid black',
+        width: '200px',
     },
     button: {
         marginTop: '10px',

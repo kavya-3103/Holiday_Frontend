@@ -27,6 +27,9 @@ const NavBar = () => {
         fontSize: '1em'
     };
 
+    // Retrieve userId from localStorage
+    const userId = localStorage.getItem('userId');
+
     return (
         <nav style={navbarStyle}>
             <div style={navbarLeftStyle}>
@@ -37,7 +40,9 @@ const NavBar = () => {
                 <Link to="/places" style={navItemStyle}>Places</Link>
                 <Link to="/aboutus" style={navItemStyle}>AboutUs</Link>
                 <Link to="/contactus" style={navItemStyle}>ContactUs</Link>
-                <Link to="`/bookingdetails/${userId}`" style={navItemStyle}>My Booking</Link> {/* New link */}
+                {userId && (
+                    <Link to={`/bookingdetails/${userId}`} style={navItemStyle}>My Booking</Link>
+                )}
                 <Link to="/logout" style={navItemStyle}>Logout</Link>
             </div>
         </nav>

@@ -7,10 +7,10 @@ const AdminHome = () => {
             <nav style={styles.navbar}>
                 <h2 style={styles.navTitle}>Admin Dashboard</h2>
                 <div style={styles.navLinks}>
-                <Link to="/getusers" style={styles.navLink}>All Users</Link> {/* Navigate to GetUsers */}
-
+                    <Link to="/getusers" style={styles.navLink}>All Users</Link>
                     <Link to="/getallplaces" style={styles.navLink}>All Places</Link>
                     <Link to="/getallfeedbacks" style={styles.navLink}>All Feedbacks</Link>
+                    <Link to="/getallbookings" style={styles.navLink}>All Bookings</Link>
                     <Link to="/login" style={styles.navLink}>Logout</Link>
                 </div>
             </nav>
@@ -23,10 +23,16 @@ const AdminHome = () => {
 
 const styles = {
     pageContainer: {
-        minHeight: '100vh',
+        height: '81.7vh',
         display: 'flex',
         flexDirection: 'column',
         paddingBottom: '100px',
+        backgroundColor: 'lightblue',
+        backgroundImage: 'url(/asset/admin_bg8.jpg)', // Add your image path here
+        backgroundSize: 'cover', // Ensure the image covers the whole container
+        backgroundPosition: 'center', // Center the background image
+        backgroundRepeat: 'no-repeat', // Prevent the background image from repeating
+        overflow: 'hidden', // Prevent scrolling
     },
     navbar: {
         display: 'flex',
@@ -51,9 +57,11 @@ const styles = {
     },
     content: {
         padding: '20px',
-        color: '#333',
+        color: 'black',
         flex: 1,
+        
     },
 };
-
+// document.body.style.overflow = 'hidden';
+// document.documentElement.style.overflow = 'hidden';
 export default AdminHome;

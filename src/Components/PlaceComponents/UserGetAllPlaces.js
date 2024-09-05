@@ -36,9 +36,6 @@ const UserGetAllPlaces = () => {
 
     useEffect(() => {
         const filterPlaces = () => {
-            const arrivalDate = new URLSearchParams(window.location.search).get('arrivalDate');
-            const departureDate = new URLSearchParams(window.location.search).get('departureDate');
-            const adults = new URLSearchParams(window.location.search).get('adults');
             const location = new URLSearchParams(window.location.search).get('location');
 
             let result = [...places];
@@ -68,17 +65,18 @@ const UserGetAllPlaces = () => {
     };
 
     if (loading) {
-        return <p>Loading...</p>;
+        return <p style={styles.loading}>Loading...</p>;
     }
 
-    return (
-        <div>
-            <h2>List of Places</h2>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+    return (<>
+    <div style={styles.MainContainer}>
+    <div style={styles.container}>
+            <h2 style={styles.heading}>Places in Your Location</h2>
+            {error && <p style={styles.error}>{error}</p>}
             {filteredPlaces.length === 0 ? (
-                <p>No places found.</p>
+                <p style={styles.noPlaces}>No places found for this location.</p>
             ) : (
-                <table>
+                <table style={styles.table}>
                     <thead>
                         <tr>
                             <th>Place ID</th>
@@ -91,20 +89,20 @@ const UserGetAllPlaces = () => {
                     </thead>
                     <tbody>
                         {filteredPlaces.map(place => (
-                            <tr key={place.placeId}>
+                            <tr key={place.placeId} style={styles.tableRow}>
                                 <td>{place.placeId}</td>
                                 <td>{place.name}</td>
                                 <td>{place.location}</td>
-                                <td>{place.description}</td>
+                                <td style={{width:'370px', marginLeft:'10px'}}>{place.description}</td>
                                 <td>{place.tourist_Attractions}</td>
                                 <td>
-                                    <button onClick={() => handleCheckFeedback(place.placeId)}>
+                                    <button onClick={() => handleCheckFeedback(place.placeId)} style={styles.button}>
                                         Check Feedback
                                     </button>
-                                    <button onClick={() => handleBookNow(place.placeId)}>
+                                    <button onClick={() => handleBookNow(place.placeId)} style={styles.button}>
                                         Book Now
                                     </button>
-                                    <button onClick={() => handleAddFeedback(place.placeId)}>
+                                    <button onClick={() => handleAddFeedback(place.placeId)} style={styles.button}>
                                         Add Feedback
                                     </button>
                                 </td>
@@ -115,14 +113,14 @@ const UserGetAllPlaces = () => {
             )}
 
             {selectedPlaceId && (
-                <div>
-                    <h3>Feedback for Place {selectedPlaceId}</h3>
+                <div style={styles.feedbackContainer}>
+                    <h3 style={styles.feedbackHeading}>Feedback for Place {selectedPlaceId}</h3>
                     {displayedFeedbacks.length === 0 ? (
                         <p>No feedback found for this place.</p>
                     ) : (
-                        <ul>
+                        <ul style={styles.feedbackList}>
                             {displayedFeedbacks.map(feedback => (
-                                <li key={feedback.feedbackId}>
+                                <li key={feedback.feedbackId} style={styles.feedbackItem}>
                                     <p><strong>Rating:</strong> {feedback.rating}</p>
                                     <p><strong>Comment:</strong> {feedback.comment}</p>
                                     <p><strong>User:</strong> {feedback.user.username}</p>
@@ -133,7 +131,78 @@ const UserGetAllPlaces = () => {
                 </div>
             )}
         </div>
+    </div>
+        
+    </>
+        
     );
+};
+
+const styles = {
+    MainContainer:{
+        
+        width:'100%',
+        height:'100vh',
+        
+    },
+    container: {
+        padding: '20px',
+        background:"white",
+        borderRadius: '8px',
+        boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+        margin: '20px auto',
+        width: '90%',
+        maxWidth: '1200px',
+    },
+    heading: {
+        fontSize: '2rem',
+        marginBottom: '20px',
+        color: '#333',
+    },
+    error: {
+        color: 'red',
+    },
+    noPlaces: {
+        textAlign: 'center',
+        color: '#666',
+    },
+    table: {
+        width: '100%',
+        borderCollapse: 'collapse',
+    },
+    tableRow: {
+        borderBottom: '1px solid #ddd',
+    },
+    button: {
+        marginRight: '10px',
+        padding: '8px 12px',
+        border: 'none',
+        borderRadius: '4px',
+        backgroundColor: '#007BFF',
+        color: '#fff',
+        cursor: 'pointer',
+        fontSize: '14px',
+    },
+    feedbackContainer: {
+        marginTop: '20px',
+    },
+    feedbackHeading: {
+        fontSize: '1.5rem',
+        marginBottom: '10px',
+        color: '#333',
+    },
+    feedbackList: {
+        listStyleType: 'none',
+        padding: '0',
+    },
+    feedbackItem: {
+        padding: '10px',
+        borderBottom: '1px solid #ddd',
+    },
+    loading: {
+        textAlign: 'center',
+        marginTop: '20px',
+    },
 };
 
 export default UserGetAllPlaces;

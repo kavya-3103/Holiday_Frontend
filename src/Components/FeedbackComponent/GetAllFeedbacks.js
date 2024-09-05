@@ -37,14 +37,14 @@ const GetAllFeedbacks = () => {
     }, []);
 
     return (
-        <div>
-            <h2>All Feedbacks</h2>
-            {loading && <p>Loading feedbacks...</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+        <div style={styles.container}>
+            <h2 style={styles.heading}>All Feedbacks</h2>
+            {loading && <p style={styles.loading}>Loading feedbacks...</p>}
+            {error && <p style={styles.error}>{error}</p>}
             {feedbacks.length > 0 ? (
-                <ul>
+                <ul style={styles.list}>
                     {feedbacks.map((feedback) => (
-                        <li key={feedback.feedbackId} style={{ marginBottom: '20px' }}>
+                        <li key={feedback.feedbackId} style={styles.listItem}>
                             <p><strong>Rating:</strong> {feedback.rating}</p>
                             <p><strong>Comment:</strong> {feedback.comment}</p>
                             <p><strong>User ID:</strong> {feedback.user ? feedback.user.userId : 'N/A'}</p>
@@ -58,5 +58,45 @@ const GetAllFeedbacks = () => {
         </div>
     );
 };
+
+const styles = {
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: '20px',
+        backgroundColor: 'white',
+        borderRadius: '8px',
+        boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+        maxWidth: '800px',
+        margin: '50px auto', // Add margin to keep the container away from the top edge
+    },
+    heading: {
+        fontSize: '2rem',
+        color: '#333',
+        marginBottom: '20px',
+    },
+    loading: {
+        color: '#007BFF',
+    },
+    error: {
+        color: 'red',
+    },
+    list: {
+        listStyleType: 'none',
+        padding: '0',
+        margin: '0',
+        width: '100%',
+    },
+    listItem: {
+        padding: '15px',
+        border: '1px solid #ddd',
+        borderRadius: '4px',
+        marginBottom: '10px',
+        backgroundColor: 'lightgrey',
+        boxShadow: '0 0 5px rgba(0, 0, 0, 0.1)',
+    },
+};
+document.body.style.backgroundColor = 'lightblue'; // Set the background color for the entire page
 
 export default GetAllFeedbacks;
